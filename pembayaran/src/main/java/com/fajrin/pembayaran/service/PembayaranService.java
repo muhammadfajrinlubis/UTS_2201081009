@@ -12,6 +12,7 @@ import com.fajrin.pembayaran.vo.ResponseTemplate;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -42,6 +43,11 @@ public class PembayaranService {
     public void insert(Pembayaran pembayaran){
         pembayaranRepository.save(pembayaran);
     }
+    
+    public void deletePembayaran(Long id) {
+        pembayaranRepository.deleteById(id);
+    }
+    
     public Pembayaran getPembayaranById(Long id) {
         return pembayaranRepository.findById(id).get();
     }
@@ -60,5 +66,25 @@ public class PembayaranService {
         responseList.add(vo);
         return responseList;
     }
-   
+     
+     @Transactional
+    public void update(Long pembayaranId, String mode_pembayaran, int ref_number, String tgl_pembayaran, String status, double total) {
+        Pembayaran pembayaran = pembayaranRepository.findById(pembayaranId)
+                .orElseThrow(() -> new IllegalStateException("pembayaran tidak ada"));
+        if (mode_pembayaran != null && !mode_pembayaran.isEmpty()) {
+            pembayaran.setMode_pembayaran(mode_pembayaran);
+        }
+        if (ref_number > 0 && !Objects.equals(pembayaran.getRef_number(), ref_number)) {
+            pembayaran.setRef_number(ref_number);
+        }
+        if (tgl_pembayaran != null && !tgl_pembayaran.isEmpty() && !Objects.equals(pembayaran.getTgl_pembayaran(), tgl_pembayaran)) {
+            pembayaran.setTgl_pembayaran(tgl_pembayaran);
+        }
+        if (status != null && !status.isEmpty() && !Objects.equals(pembayaran.getStatus(), status)) {
+            pembayaran.setStatus(status);
+        }
+        if (total > 0) {
+            pembayaran.setTotal(total);
+        }
+    }
 }

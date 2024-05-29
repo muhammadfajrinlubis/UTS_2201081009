@@ -75,6 +75,11 @@ public class OrderService {
         return responseList;
     }
     
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
+    }
+    
+    
    
    
 }

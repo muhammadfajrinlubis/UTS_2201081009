@@ -44,6 +44,17 @@ public class ProdukController {
         produkService.deleteProduk(id);
     }
     
+     @PutMapping(path = "{id}")
+    public void updateProduk(@PathVariable ("id") Long id,
+            @RequestParam(required = false) String kode,
+            @RequestParam(required = false) String nama,
+            @RequestParam(required = false) String satuan
+            
+            
+    ){
+        produkService.update(id, kode, nama, satuan);
+    }
+    
  
     
     

@@ -39,6 +39,21 @@ public class PembayaranController {
     public List<ResponseTemplate>getPembayaranWithOrderkById(@PathVariable("id") Long id) {
         return pembayaranService.getPembayaranWithOrderkById(id);
     }
+    
+     @DeleteMapping(path = "{id}")
+    public void deletePemabayaran(@PathVariable("id") Long id) {
+        pembayaranService.deletePembayaran(id);
+    }
      
     
+       @PutMapping(path = "{id}")
+    public void updatePembayaran(@PathVariable("id") Long id,
+                                 @RequestParam(required = false) String mode_pembayaran,
+                                 @RequestParam(required = false) Integer ref_number,
+                                 @RequestParam(required = false) String tgl_bayar,
+                                 @RequestParam(required = false) String status,
+                                 @RequestParam(required = false) Double total) {
+        pembayaranService.update(id, mode_pembayaran, ref_number, tgl_bayar, status, total);
+    }
+
 }
